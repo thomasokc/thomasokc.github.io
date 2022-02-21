@@ -24,10 +24,17 @@ body {
     text-align: center;
 }
 
-.search{
+.sc{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 2%;
+}
+.sl{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1%;
 }
 
 .search-bar{

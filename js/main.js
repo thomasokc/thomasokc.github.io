@@ -1,26 +1,39 @@
+
+
 let weather = {
     apiKey: "e81870f85fb21dd138c1e9f3b0dbed70",  // Hide API key in some sort of back end if I further this project
+
+
+
     fetchCityWeather: function (city) {
         fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + this.apiKey)
         .then((response) => response.json())
         .then((data) => this.displayWeather(data));
     },
 
-    getLocation: function () {
-        let opts = {
-            enableHighAccuracy: true,
-            timeout: 1000 * 10,
-            mamimumAge: 1000 * 60 * 5,
-        };
-        navigator.geolocation.getCurrentPosition(weather.ftw, weather.wtf, opts);
-    },
+    
 
-    // Error for geolocation
-    wtf: (err) => { 
-        console.log(err);
+    fetchLocationWeather: function (position) {
+
+        if ('geolocation' in navigator) {
+            console.log('geolocation available');
+            navigator.geolocation.getCurrentPosition(position =>  {
+            lat = position.coords.latitude
+            lon = position.coords.longitude
+
+            fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + this.apiKey)
+            .then((response) => response.json())
+            .then((data) => this.displayWeather(data));
+        });
+        } else {
+            console.log('geolocation not available');
+        }
+
+        
     },
 
     displayWeather: function(data) {
+        
         const { name } = data;
         const { icon, description } = data.weather[0];
         const {temp,temp_min,temp_max, humidity } = data.main;
@@ -36,14 +49,16 @@ let weather = {
         document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%";
         document.querySelector(".wind").innerText = "Wind speed: " + speed + "mph"
     },
-    
-    search: function () {
+
+    searchCity: function () {
         this.fetchCityWeather(document.querySelector(".search-bar").value);
+    },
+
+    searchLocation: function () {
+        this.fetchLocationWeather(document.querySelector(".sl"));
     }
 };
 
-document.querySelector(".search button").addEventListener("click", function () { weather.search();
+document.querySelector(".sc button").addEventListener("click", function () { weather.searchCity();})
 
-});
-
-weather.init();
+document.querySelector(".sl button").addEventListener("click", function () { weather.searchLocation();})
