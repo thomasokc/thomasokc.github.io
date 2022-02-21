@@ -42,7 +42,7 @@ let weather = {
         document.querySelector(".city").innerText = "Weather in: " + name;
         document.querySelector(".icon").src =
         "https://openweathermap.org/img/wn/" + icon + ".png";
-        document.querySelector(".description").innerText = description;
+        document.querySelector(".description").innerText = "Forecast: " + description;
         document.querySelector(".temp").innerText = "Current: " + temp + " °F";
         document.querySelector(".temp_min").innerText = "Low: " + temp_min + " °F";
         document.querySelector(".temp_max").innerText = "High: " + temp_max + " °F";
